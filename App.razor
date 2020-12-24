@@ -13,8 +13,6 @@
 >Judge</button>
 
 @code {
-    private const string Secret = "\x5c\x7f\x14\x53\x5f\x23\x7f\x4c\x15\x79\x13\x7f\x46\x7e\x14\x5a\x14\x60\x7f\x54\x4c\x26\x4e\x7f\x57\x73\x11\x4c\x14\x60\x5d";
-
     private string _answer = "";
     private string _result = "Waiting for your answer";
 
@@ -37,7 +35,8 @@
             
         }
         
-        _result = (Encoding.ASCII.GetString(answer) == Secret) switch {
+        _result = 
+            (Encoding.ASCII.GetString(answer) == "\x5c\x7f\x14\x53\x5f\x23\x7f\x4c\x15\x79\x13\x7f\x46\x7e\x14\x5a\x14\x60\x7f\x54\x4c\x26\x4e\x7f\x57\x73\x11\x4c\x14\x60\x5d") switch {
                 true => "Correct!",
                 _ => "Incorrect, try again."
             };
