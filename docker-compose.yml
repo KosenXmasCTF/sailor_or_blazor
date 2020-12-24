@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  frontend:
+    build: '.'
+    image: '${IMAGE_NAME}'
+    container_name: 'sailor_or_blazor'
+    ports:
+      - '443:443'
