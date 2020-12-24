@@ -1,1 +1,47 @@
-﻿
+﻿@using System.Text
+
+<h4>Input your flag!</h4>
+<input
+    type="text" 
+    placeholder="xm4s{foobar}"
+    @bind="_answer"
+>
+<p>Result: @_result</p>
+<button
+    class="btn btn-primary"
+    @onclick="Judge"
+>Judge</button>
+
+@code {
+    private const string Secret = "\x5c\x7f\x14\x53\x5f\x23\x7f\x4c\x15\x79\x13\x7f\x46\x7e\x14\x5a\x14\x60\x7f\x54\x4c\x26\x4e\x7f\x57\x73\x11\x4c\x14\x60\x5d";
+
+    private string _answer = "";
+    private string _result = "Waiting for your answer";
+
+    private void Judge()
+    {
+        var bytes = Encoding.ASCII.GetBytes(_answer);
+        var answer = new byte[bytes.Length];
+
+        for (var i = 0; i < bytes.Length; ++i)
+        {
+            var b = bytes[i];
+            
+            answer[i] = (byte)(
+                b ^ (i % 4) switch {
+                    0 => 0x24,
+                    1 => 0x12,
+                    _ => 0x20
+                }
+            );
+            
+        }
+        
+        _result = (Encoding.ASCII.GetString(answer) == Secret) switch {
+                true => "Correct!",
+                _ => "Incorrect, try again."
+            };
+
+        _answer = "";
+    }
+}
